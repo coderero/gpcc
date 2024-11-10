@@ -10,6 +10,8 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
+// The function mustStartCassandraContainer starts a Cassandra container, creates a keyspace, retrieves
+// the host and port information, and returns a function to terminate the container.
 func mustStartCassandraContainer() (func(context.Context) error, error) {
 	cassandraContainer, err := cassandra.Run(
 		context.Background(),
@@ -45,17 +47,20 @@ func mustStartCassandraContainer() (func(context.Context) error, error) {
 	return cassandraContainer.Terminate, err
 }
 
+// The function `TestCassandraInstance` tests the creation of a Cassandra instance and checks if it is
+// not nil.
 func TestCassandraInstance(t *testing.T) {
 	srv := Cassandra()
 	if srv == nil {
-		t.Fatal("New() returned nil")
+		t.Fatal("Cassandra() returned nil")
 	}
 }
 
+// The TestCassandraHealth function tests the health status of a Cassandra server.
 func TestCassandraHealth(t *testing.T) {
 	srv := Cassandra()
 	if srv == nil {
-		t.Fatal("New() returned nil")
+		t.Fatal("Cassandra() returned nil")
 	}
 	health := srv.Health()
 	if health["status"] != "up" {
@@ -63,10 +68,11 @@ func TestCassandraHealth(t *testing.T) {
 	}
 }
 
+// The TestCassandraClose function tests the Close method of a Cassandra server instance.
 func TestCassandraClose(t *testing.T) {
 	srv := Cassandra()
 	if srv == nil {
-		t.Fatal("New() returned nil")
+		t.Fatal("Cassandra() returned nil")
 	}
 	if err := srv.Close(); err != nil {
 		t.Fatalf("Close() returned an error: %v", err)

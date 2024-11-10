@@ -18,11 +18,11 @@ type cassandraService struct {
 }
 
 var (
-	cassandraKeyspace = os.Getenv("CASSANDRA_KEYSPACE")
 	cassandraUsername = os.Getenv("CASSANDRA_USERNAME")
 	cassandraPassword = os.Getenv("CASSANDRA_PASSWORD")
 	cassandraHosts    = strings.Split(os.Getenv("CASSANDRA_HOSTS"), ",")
 	cassandraPort     = os.Getenv("CASSANDRA_PORT")
+	cassandraKeyspace = os.Getenv("CASSANDRA_KEYSPACE")
 	cassandraInstance *cassandraService
 )
 
@@ -31,6 +31,10 @@ func Cassandra() Service {
 	// Reuse Connection
 	if cassandraInstance != nil {
 		return cassandraInstance
+	}
+
+	if cassandraKeyspace == "" {
+		log.Fatal("CASSANDRA_KEYSPACE is not set")
 	}
 
 	// Create a new Cassandra cluster
@@ -54,6 +58,7 @@ func Cassandra() Service {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	cassandraInstance = &cassandraService{
 		session: session,
 	}

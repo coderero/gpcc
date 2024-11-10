@@ -28,7 +28,6 @@ var (
 )
 
 func Postgres() Service {
-	// Reuse Connection
 	if pgDbInstance != nil {
 		return pgDbInstance
 	}
@@ -37,6 +36,7 @@ func Postgres() Service {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	pgDbInstance = &postgresService{
 		db: db,
 	}

@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+// The TestMain function sets up and tears down containers for PostgreSQL and Cassandra before and
+// after running tests.
 func TestMain(m *testing.M) {
 	postgresTeardown, err := mustStartPostgresContainer()
 	if err != nil {

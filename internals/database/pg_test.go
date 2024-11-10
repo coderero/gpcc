@@ -10,6 +10,8 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
+// The function `mustStartPostgresContainer` starts a PostgreSQL container and returns a function to
+// terminate it along with the necessary connection details.
 func mustStartPostgresContainer() (func(context.Context) error, error) {
 	var (
 		dbName = "database"
@@ -52,6 +54,8 @@ func mustStartPostgresContainer() (func(context.Context) error, error) {
 	return dbContainer.Terminate, err
 }
 
+// The TestPostgresInstance function tests the creation of a Postgres instance and checks if it is not
+// nil.
 func TestPostgresInstace(t *testing.T) {
 	srv := Postgres()
 	if srv == nil {
@@ -59,6 +63,8 @@ func TestPostgresInstace(t *testing.T) {
 	}
 }
 
+// The function `TestPostgresHealth` tests the health status of a Postgres server and checks for
+// specific expected values.
 func TestPostgresHealth(t *testing.T) {
 	srv := Postgres()
 
@@ -77,6 +83,7 @@ func TestPostgresHealth(t *testing.T) {
 	}
 }
 
+// The TestPostgresClose function tests the Close method of a Postgres server instance.
 func TestPostgresClose(t *testing.T) {
 	srv := Postgres()
 
