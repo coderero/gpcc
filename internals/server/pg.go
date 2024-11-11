@@ -3,8 +3,6 @@ package server
 import (
 	"fmt"
 	"net/http"
-	"os"
-	"strconv"
 	"time"
 
 	_ "github.com/joho/godotenv/autoload"
@@ -12,21 +10,19 @@ import (
 	"connector/internals/database"
 )
 
-type Server struct {
+type PostgresServer struct {
 	port int
 
 	db database.Service
 }
 
-func NewServer() *http.Server {
-	port, _ := strconv.Atoi(os.Getenv("PORT"))
-	NewServer := &Server{
+func NewPostgresServer(port int) *http.Server {
+	NewServer := &PostgresServer{
 		port: port,
 
 		db: database.Postgres(),
 	}
 
-	// Declare Server config
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", NewServer.port),
 		Handler:      NewServer.RegisterRoutes(),

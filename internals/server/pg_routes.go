@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (s *Server) RegisterRoutes() http.Handler {
+func (s *PostgresServer) RegisterRoutes() http.Handler {
 	r := gin.Default()
 
 	r.GET("/", s.HelloWorldHandler)
@@ -16,13 +16,13 @@ func (s *Server) RegisterRoutes() http.Handler {
 	return r
 }
 
-func (s *Server) HelloWorldHandler(c *gin.Context) {
+func (s *PostgresServer) HelloWorldHandler(c *gin.Context) {
 	resp := make(map[string]string)
 	resp["message"] = "Hello World"
 
 	c.JSON(http.StatusOK, resp)
 }
 
-func (s *Server) healthHandler(c *gin.Context) {
+func (s *PostgresServer) healthHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, s.db.Health())
 }
